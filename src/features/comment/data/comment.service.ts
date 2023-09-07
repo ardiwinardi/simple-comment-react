@@ -3,6 +3,7 @@ import api from "@/shared/services/api.service";
 import { PropsWithMeta } from "@/shared/types/props-with-meta";
 import { Comment } from "../domain/comment.entity";
 import { CommentRepository } from "../domain/comment.repository";
+import { AddCommentDTO } from "../dtos/add-comment.dto";
 import { CommentDTO } from "../dtos/comment.dto";
 import { commentFromDTO } from "./comment.mapper";
 import { AddCommentRequest, GetCommentsRequest } from "./comment.request";
@@ -45,7 +46,12 @@ class CommentService implements CommentRepository {
    * @returns {Promise<Comment>} - returns a comment that was just created
    */
   async addComment(request: AddCommentRequest): Promise<Comment> {
-    const response = await api.get<CommentDTO>(`/comments/add`);
+    const payload: AddCommentDTO = {
+      body: request.body,
+      postId: request.postId,
+      userId: request.userId,
+    };
+    const response = await api.post<CommentDTO>(`/comments/add`, payload);
     return commentFromDTO(response.data);
   }
 }

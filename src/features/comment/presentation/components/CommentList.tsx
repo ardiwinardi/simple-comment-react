@@ -31,7 +31,17 @@ export default function CommentList() {
 
   useEffect(() => {
     if (getCommentsQuery.data) {
-      setCommentList([...commentList, ...(getCommentsQuery.data?.data ?? [])]);
+      if (getCommentsQuery.data.total) {
+        setCommentList([
+          ...commentList,
+          ...(getCommentsQuery.data?.data ?? []),
+        ]);
+      } else {
+        setCommentList([
+          ...(getCommentsQuery.data?.data ?? []),
+          ...commentList,
+        ]);
+      }
     }
   }, [getCommentsQuery.dataUpdatedAt]);
 

@@ -30,7 +30,7 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
   VariantProps<typeof button>;
 
 const Button = forwardRef<ElementRef<"button">, ButtonProps>(function Button(
-  { type, className, variant, size, ...props },
+  { type = "submit", className, variant, size, ...props },
   ref
 ) {
   return (
