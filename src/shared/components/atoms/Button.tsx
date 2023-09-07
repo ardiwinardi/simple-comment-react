@@ -29,17 +29,18 @@ const button = cva(
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
   VariantProps<typeof button>;
 
-const Button = forwardRef<ElementRef<"button">, ButtonProps>(
-  ({ type, className, variant, size, ...props }, ref) => {
-    return (
-      <button
-        type={type}
-        className={classNames(button({ variant, size, className }))}
-        {...props}
-        ref={ref}
-      />
-    );
-  }
-);
+const Button = forwardRef<ElementRef<"button">, ButtonProps>(function Button(
+  { type, className, variant, size, ...props },
+  ref
+) {
+  return (
+    <button
+      type={type}
+      className={classNames(button({ variant, size, className }))}
+      {...props}
+      ref={ref}
+    />
+  );
+});
 
 export default Button;

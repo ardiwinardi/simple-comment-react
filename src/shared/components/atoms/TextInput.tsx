@@ -4,7 +4,7 @@ import { HiArrowRight } from "react-icons/hi";
 type TextInputProps = InputHTMLAttributes<HTMLInputElement>;
 
 const TextInput = forwardRef<ElementRef<"input">, TextInputProps>(
-  ({ type, className, ...props }, ref) => {
+  function TextInput({ type, className, ...props }, ref) {
     return (
       <div className="relative">
         <input

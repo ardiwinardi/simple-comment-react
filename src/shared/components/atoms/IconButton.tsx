@@ -5,7 +5,7 @@ import Button from "./Button";
 const IconButton = forwardRef<
   ElementRef<typeof Button>,
   ComponentPropsWithoutRef<typeof Button>
->(({ children, className, ...props }, ref) => {
+>(function IconButton({ children, className, ...props }, ref) {
   return (
     <Button
       ref={ref}
