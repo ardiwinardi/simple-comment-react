@@ -5,5 +5,5 @@ export type Comment = {
   user: User;
   message: string;
   reactionNumber: number;
-  replies: Omit<Comment, "replies">[];
+  replies: (Comment & { replies: [] })[];
 };
