@@ -1,6 +1,6 @@
 import { PropsWithMetaDTO } from "@/shared/dtos/props-with-meta.dto";
 import api from "@/shared/services/api.service";
-import { PropsWithMeta } from "@/shared/types/props-with-meta";
+import { DataWithMeta } from "@/shared/types/data-with-meta";
 import { Comment } from "../domain/comment.entity";
 import { CommentRepository } from "../domain/comment.repository";
 import { AddCommentDTO } from "../dtos/add-comment.dto";
@@ -14,13 +14,13 @@ class CommentService implements CommentRepository {
    * @param {GetCommentsRequest} request - api request
    * @param {number} [request.limit=2] - default maximum number of items to retrieve
    * @param {number} [request.skip=0] - default item's index to retrieve
-   * @returns {Promise<PropsWithMeta<{ data: Comment[] }>>} - returns comment items with meta data
+   * @returns {Promise<DataWithMeta<Comment[]>>} - returns comment items with meta data {limit, skip, total}
    */
   async getAll({
     limit = 2,
     skip = 0,
     orderBy,
-  }: GetCommentsRequest): Promise<PropsWithMeta<{ data: Comment[] }>> {
+  }: GetCommentsRequest): Promise<DataWithMeta<Comment[]>> {
     const filters = [`limit=${limit}`, `skip=${skip}`, `orderBy=${orderBy}`];
 
     const queryString = `?${filters.join("&")}`;
@@ -33,7 +33,9 @@ class CommentService implements CommentRepository {
     const { comments, ...props } = response.data;
     return {
       data: comments.map((dto) => commentFromDTO(dto)),
-      ...props,
+      total: props.total ?? 0,
+      limit: props.limit ?? 0,
+      skip: props.skip ?? 0,
     };
   }
 

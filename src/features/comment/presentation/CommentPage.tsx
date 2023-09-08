@@ -9,7 +9,15 @@ import CommentItemSkeleton from "./components/CommentItemSkeleton";
 import { CommentListProvider } from "./contexts/CommentListContext";
 
 const CommentList = lazy(() => import("./components/CommentList"));
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
+      retry: 0,
+    },
+  },
+});
 
 export default function CommentPage() {
   return (

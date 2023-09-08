@@ -2,7 +2,7 @@
 
 import Spinner from "@/shared/components/atoms/Spinner";
 import dynamic from "next/dynamic";
-import React, { useEffect, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Comment } from "../../domain/comment.entity";
 import { useCommentListContext } from "../contexts/CommentListContext";
 import { useGetCommentsQuery } from "../controllers";
@@ -22,60 +22,45 @@ export default function CommentList() {
    * show spinner on load more loading
    */
 
-  useEffect(() => {
-    if (skip === 0) {
-      setCommentList([]);
-    }
-    getCommentsQuery.refetch();
-  }, [orderBy, skip]);
-
-  useEffect(() => {
-    if (getCommentsQuery.data) {
-      if (getCommentsQuery.data.total) {
-        setCommentList([
-          ...commentList,
-          ...(getCommentsQuery.data?.data ?? []),
-        ]);
-      } else {
-        setCommentList([
-          ...(getCommentsQuery.data?.data ?? []),
-          ...commentList,
-        ]);
-      }
+  const hasLoadMore = useMemo((): boolean => {
+    const pages = getCommentsQuery.data?.pages ?? [];
+    if (pages.length > 0) {
+      return pages[pages.length - 1].total > pages[pages.length - 1].skip;
+    } else {
+      return false;
     }
   }, [getCommentsQuery.dataUpdatedAt]);
-
-  const handleLoadMore = () => {
-    setSkip(skip + limit);
-  };
-
+  console.log(getCommentsQuery);
   return (
     <>
       {getCommentsQuery.isLoading && <CommentItemSkeleton />}
+      {getCommentsQuery.data?.pages.map((page, index) => (
+        <React.Fragment key={index}>
+          {page.data.map((comment) => (
+            <React.Fragment key={comment.id}>
+              <CommentItem comment={comment} />
+              {comment.replies.length > 0 && (
+                <div className="ml-[2.8rem]">
+                  {comment.replies.map((reply, index) => (
+                    <CommentItem key={`${reply.id}${index}`} comment={reply} />
+                  ))}
+                </div>
+              )}
+            </React.Fragment>
+          ))}
+        </React.Fragment>
+      ))}
 
-      {commentList.map((comment) => {
-        return (
-          <React.Fragment key={comment.id}>
-            <CommentItem comment={comment} />
-            {comment.replies.length > 0 && (
-              <div className="ml-[2.8rem]">
-                {comment.replies.map((reply, index) => (
-                  <CommentItem key={`${reply.id}${index}`} comment={reply} />
-                ))}
-              </div>
-            )}
-          </React.Fragment>
-        );
-      })}
-
-      {commentList.length > 0 && (
+      {hasLoadMore && (
         <>
           {getCommentsQuery.isFetching ? (
             <div className="flex justify-center">
               <Spinner />
             </div>
           ) : (
-            <CommentPagination handleLoadMore={handleLoadMore} />
+            <CommentPagination
+              handleLoadMore={getCommentsQuery.fetchNextPage}
+            />
           )}
         </>
       )}
