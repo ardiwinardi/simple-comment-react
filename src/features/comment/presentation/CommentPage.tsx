@@ -1,41 +1,28 @@
 "use client";
 
+import ClientProvider from "@/shared/components/providers/ClientProvider";
+import Link from "next/link";
 import { Suspense, lazy } from "react";
-import { ErrorBoundary } from "react-error-boundary";
-import { QueryClient, QueryClientProvider } from "react-query";
 import CommentFilter from "./components/CommentFilter";
 import { CommentForm } from "./components/CommentForm";
 import CommentItemSkeleton from "./components/CommentItemSkeleton";
 import { CommentListProvider } from "./contexts/CommentListContext";
 
 const CommentList = lazy(() => import("./components/CommentList"));
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-      refetchOnMount: false,
-      retry: 0,
-    },
-  },
-});
 
 export default function CommentPage() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <div className="px-2 md:px-0 md:w-5/12 mx-auto my-10 space-y-5">
+    <ClientProvider>
+      <main className="px-2 md:px-0 md:w-5/12 mx-auto my-10 space-y-5">
+        <Link href="/login">login</Link>
         <CommentForm />
         <CommentListProvider>
           <CommentFilter />
-          <ErrorBoundary
-            onError={(e) => console.log(e)}
-            fallback={<div>Something went wrong</div>}
-          >
-            <Suspense fallback={<CommentItemSkeleton />}>
-              <CommentList />
-            </Suspense>
-          </ErrorBoundary>
+          <Suspense fallback={<CommentItemSkeleton />}>
+            <CommentList />
+          </Suspense>
         </CommentListProvider>
-      </div>
-    </QueryClientProvider>
+      </main>
+    </ClientProvider>
   );
 }

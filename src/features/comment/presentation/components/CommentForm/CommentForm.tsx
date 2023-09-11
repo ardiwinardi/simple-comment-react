@@ -63,12 +63,13 @@ export function CommentForm({ className }: Props) {
       <form onSubmit={handleSubmit(onSubmit)}>
         <TextInput
           placeholder="Write your comment here"
+          autoComplete="off"
           {...register("message")}
         />
         {showButton && (
           <div className="mt-1">
-            <Button disabled={isButtonDisabled}>
-              {addCommentMutation.isLoading ? "Loading..." : "Post"}
+            <Button disabled={isButtonDisabled || addCommentMutation.isLoading}>
+              Post
             </Button>
           </div>
         )}

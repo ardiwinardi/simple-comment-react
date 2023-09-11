@@ -8,10 +8,7 @@ export default function Skeleton({ className }: Props) {
   return (
     <div role="status" className="animate-pulse">
       <div
-        className={classNames(
-          "h-3 w-full bg-gray-200 rounded-full mb-4",
-          className
-        )}
+        className={classNames("h-3 w-full bg-gray-200 rounded-full", className)}
       ></div>
     </div>
   );

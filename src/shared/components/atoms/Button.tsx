@@ -4,7 +4,7 @@ import { ButtonHTMLAttributes, ElementRef, forwardRef } from "react";
 
 const button = cva(
   [
-    "px-3 py-0.5 rounded-full font-bold disabled:opacity-50 transition-all duration-150 enabled:active:scale-95",
+    "px-3 py-0.5 rounded-full disabled:opacity-50 transition-all duration-150 enabled:active:scale-95",
   ],
   {
     variants: {

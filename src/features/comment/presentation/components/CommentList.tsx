@@ -2,26 +2,26 @@
 
 import Spinner from "@/shared/components/atoms/Spinner";
 import dynamic from "next/dynamic";
-import React, { useMemo, useState } from "react";
-import { Comment } from "../../domain/comment.entity";
+import React, { useMemo } from "react";
 import { useCommentListContext } from "../contexts/CommentListContext";
 import { useGetCommentsQuery } from "../controllers";
 import { CommentItem } from "./CommentItem";
 import CommentItemSkeleton from "./CommentItemSkeleton";
 const CommentPagination = dynamic(() => import("./CommentPagination"));
 
-export default function CommentList() {
-  const [commentList, setCommentList] = useState<Comment[]>([]);
+/**
+ * show comments skeleton on initial loading
+ * append new comments to commentList when user clicks load more button
+ * show spinner when processing load more action
+ */
 
+export default function CommentList() {
   const { orderBy, limit, skip, setSkip } = useCommentListContext();
   const getCommentsQuery = useGetCommentsQuery({ orderBy, limit, skip });
 
   /**
-   * show comments skeleton on initial loading
-   * append new comments to commentList when user clicks load more button
-   * show spinner on load more loading
+   * if total > skip value, show load more button
    */
-
   const hasLoadMore = useMemo((): boolean => {
     const pages = getCommentsQuery.data?.pages ?? [];
     if (pages.length > 0) {
@@ -30,7 +30,7 @@ export default function CommentList() {
       return false;
     }
   }, [getCommentsQuery.dataUpdatedAt]);
-  console.log(getCommentsQuery);
+
   return (
     <>
       {getCommentsQuery.isLoading && <CommentItemSkeleton />}
