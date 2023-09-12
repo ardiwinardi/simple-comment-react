@@ -19,19 +19,25 @@ type AvatarProps = HTMLAttributes<HTMLImageElement> &
   VariantProps<typeof avatar> & {
     src: string;
     isOnline?: boolean;
+    alt?: string;
   };
 
 export default function Avatar({
   size,
   isOnline,
   className,
+  alt = "avatar",
   ...props
 }: AvatarProps) {
   return (
     <div className="relative">
-      <img className={classNames(avatar({ size, className }))} {...props} />
+      <img
+        className={classNames(avatar({ size, className }))}
+        {...props}
+        alt={alt}
+      />
       {isOnline && (
-        <span className="top-0 left-7 absolute  w-3.5 h-3.5 bg-green-400 border-2 border-white dark:border-gray-800 rounded-full"></span>
+        <span className="top-0 left-7 absolute  w-3.5 h-3.5 bg-green-400 border-2 border-white dark:border-gray-800 rounded-full" />
       )}
     </div>
   );

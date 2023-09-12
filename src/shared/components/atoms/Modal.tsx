@@ -1,8 +1,15 @@
 "use client";
-import { useRouter } from "next/navigation";
-import { MouseEventHandler, useCallback, useEffect, useRef } from "react";
 
-export default function Modal({ children }: { children: React.ReactNode }) {
+import { useRouter } from "next/navigation";
+import {
+  MouseEventHandler,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useRef,
+} from "react";
+
+export default function Modal({ children }: { children: ReactNode }) {
   const overlay = useRef(null);
   const wrapper = useRef(null);
   const router = useRouter();
@@ -12,9 +19,12 @@ export default function Modal({ children }: { children: React.ReactNode }) {
   }, [router]);
 
   const onClick: MouseEventHandler = useCallback(
-    (e) => {
-      if (e.target === overlay.current || e.target === wrapper.current) {
-        if (onDismiss) onDismiss();
+    e => {
+      if (
+        (e.target === overlay.current || e.target === wrapper.current) &&
+        onDismiss
+      ) {
+        onDismiss();
       }
     },
     [onDismiss, overlay, wrapper]
@@ -37,6 +47,7 @@ export default function Modal({ children }: { children: React.ReactNode }) {
       ref={overlay}
       className="fixed z-10 left-0 right-0 top-0 bottom-0 mx-auto bg-black/60"
       onClick={onClick}
+      aria-hidden="true"
     >
       <div
         ref={wrapper}

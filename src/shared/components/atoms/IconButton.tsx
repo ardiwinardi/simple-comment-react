@@ -11,7 +11,7 @@ const IconButton = forwardRef<
       ref={ref}
       {...props}
       className={classNames(className, "p-0")}
-      variant={"link"}
+      variant="link"
     >
       {children}
     </Button>

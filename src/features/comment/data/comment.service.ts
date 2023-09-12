@@ -32,7 +32,7 @@ class CommentService implements CommentRepository {
     >(`/comments${queryString}`);
     const { comments, ...props } = response.data;
     return {
-      data: comments.map((dto) => commentFromDTO(dto)),
+      data: comments.map(dto => commentFromDTO(dto)),
       total: props.total ?? 0,
       limit: props.limit ?? 0,
       skip: props.skip ?? 0,

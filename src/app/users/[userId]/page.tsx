@@ -1,5 +1,6 @@
 import userService from "@/features/user/data/user.service";
 import UserCard from "@/features/user/presentation/components/UserCard";
+
 type UserPageProps = {
   params: {
     userId: string;

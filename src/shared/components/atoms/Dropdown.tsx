@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { classNames as cn } from "@/shared/utils/classnames";
 import { Menu, Transition } from "@headlessui/react";
@@ -7,7 +7,7 @@ import { Fragment, PropsWithChildren } from "react";
 
 export type DropdownMenuItem = {
   label: string;
-  onClick: VoidFunction;
+  onClick: () => void;
 };
 type Props = PropsWithChildren & {
   menus: DropdownMenuItem[];
@@ -38,9 +38,10 @@ export default function Dropdown({ children, menus, classNames }: Props) {
           )}
         >
           <div className="py-1">
-            {menus.map((menu) => (
+            {menus.map(menu => (
               <Menu.Item key={menu.label}>
                 <button
+                  type="button"
                   onClick={menu.onClick}
                   className={cn(
                     `group flex w-full items-center px-3 py-1 text-sm hover:bg-gray-100 ${classNames?.item}`

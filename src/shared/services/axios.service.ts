@@ -19,17 +19,16 @@ export default function createAxiosInstance(baseURL: string) {
       }
       return config;
     },
-    (error) => Promise.reject(error)
+    error => Promise.reject(error)
   );
 
   api.interceptors.response.use(
-    (response) => response,
-    (error) => {
+    response => response,
+    error => {
       if ((error as AxiosError).code === "ERR_NETWORK") {
         console.log("the internet connection is lost");
-      } else {
-        return Promise.reject(error.response?.data?.message ?? "Unknown Error");
       }
+      return Promise.reject(error.response?.data?.message ?? "Unknown Error");
     }
   );
   return api;

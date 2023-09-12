@@ -1,6 +1,7 @@
 import { classNames } from "@/shared/utils/classnames";
 import { ElementRef, InputHTMLAttributes, forwardRef } from "react";
 import { HiArrowRight } from "react-icons/hi";
+
 type TextInputProps = InputHTMLAttributes<HTMLInputElement>;
 
 const TextInput = forwardRef<ElementRef<"input">, TextInputProps>(

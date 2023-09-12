@@ -20,7 +20,7 @@ export default function UserCard({ user }: Props) {
       </div>
 
       <div className="-mt-8 mx-3">
-        <Avatar src={user.avatar} size={"lg"} />
+        <Avatar src={user.avatar} size="lg" />
         <b>{user.name}</b>
         <p>{user.title}</p>
       </div>

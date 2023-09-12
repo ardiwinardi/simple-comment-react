@@ -15,7 +15,7 @@ export function CommentItem({ comment }: CommentItemType) {
   return (
     <CommentItemContext.Provider value={{ comment }}>
       <div className="flex gap-2">
-        <Avatar size={"md"} src={comment.user.avatar} />
+        <Avatar size="md" src={comment.user.avatar} />
         <div className="flex flex-col flex-1">
           <CommentCard />
           <CommentReaction />

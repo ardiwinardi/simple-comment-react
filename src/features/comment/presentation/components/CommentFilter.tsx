@@ -14,22 +14,24 @@ export default function CommentFilter() {
     CommentListContext
   ) as CommentListType;
 
-  const menus: DropdownMenuItem[] = orderByOptions.map((option) => ({
+  const menus: DropdownMenuItem[] = orderByOptions.map(option => ({
     label: option.label,
     onClick: () => setOrderBy(option.value),
   }));
 
-  const currentLabel = orderByOptions.find(
-    (option) => option.value === orderBy
-  )?.label;
+  const currentLabel = orderByOptions.find(option => option.value === orderBy)
+    ?.label;
 
   return (
     <Dropdown menus={menus} classNames={{ items: "mt-2" }}>
       <div className="flex">
-        <label className="text-xs font-bold text-gray-500 cursor-pointer">
+        <label
+          className="text-xs font-bold text-gray-500 cursor-pointer"
+          htmlFor="dropdown"
+        >
           {currentLabel}
         </label>{" "}
-        <HiChevronDown size={18} className="text-gray-500" />
+        <HiChevronDown size={18} className="text-gray-500" id="dropdown" />
       </div>
     </Dropdown>
   );

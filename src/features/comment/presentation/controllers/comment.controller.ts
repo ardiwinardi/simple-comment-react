@@ -10,24 +10,23 @@ import commentService from "../../data/comment.service";
 import { Comment } from "../../domain/comment.entity";
 
 export const useGetCommentsQuery = (request: GetCommentsRequest) => {
-  const comments = useInfiniteQuery({
+  return useInfiniteQuery({
     queryKey: ["comments"],
     queryFn: ({ pageParam = 0 }) => {
       return commentService.getAll({ ...request, skip: pageParam });
     },
-    onError: (error) => console.log(error),
-    getNextPageParam: (lastPage) => lastPage.skip + lastPage.limit,
+    onError: error => console.log(error),
+    getNextPageParam: lastPage => lastPage.skip + lastPage.limit,
   });
-  return comments;
 };
 
 export const useAddCommentMutation = () => {
   const queryClient = useQueryClient();
 
-  const comment = useMutation({
+  return useMutation({
     mutationFn: commentService.addComment,
-    onError: (error) => console.log(error),
-    onSuccess: (result) => {
+    onError: error => console.log(error),
+    onSuccess: result => {
       queryClient.setQueryData<InfiniteData<DataWithMeta<Comment[]>>>(
         ["comments"],
         (oldData: any) => {
@@ -37,9 +36,8 @@ export const useAddCommentMutation = () => {
             };
             newData.pages[0].data = [result, ...newData.pages[0].data];
             return newData;
-          } else {
-            return oldData;
           }
+          return oldData;
         },
         {
           updatedAt: new Date().getTime(),
@@ -47,6 +45,4 @@ export const useAddCommentMutation = () => {
       );
     },
   });
-
-  return comment;
 };

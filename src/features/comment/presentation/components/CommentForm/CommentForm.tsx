@@ -6,7 +6,7 @@ import { classNames } from "@/shared/utils/classnames";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ClassValue } from "clsx";
 import debounce from "lodash.debounce";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import * as yup from "yup";
@@ -23,18 +23,12 @@ const commentFormSchema = yup.object().shape({
 type CommentFormData = yup.InferType<typeof commentFormSchema>;
 
 export function CommentForm({ className }: Props) {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    reset,
-    formState: { errors },
-  } = useForm<CommentFormData>({
+  const { register, handleSubmit, watch, reset } = useForm<CommentFormData>({
     resolver: yupResolver(commentFormSchema),
   });
 
   const [showButton, setShowButton] = useState(false);
-  const debouncedShowButton = useCallback(debounce(setShowButton, 300), []);
+  const debouncedShowButton = debounce(setShowButton, 300);
   const value = watch("message") ?? "";
   const isButtonDisabled = value.replace(/\s/g, "").length === 0;
 
@@ -56,7 +50,7 @@ export function CommentForm({ className }: Props) {
     if (addCommentMutation.isSuccess) {
       reset({ message: "" });
     }
-  }, [addCommentMutation.isSuccess]);
+  }, [addCommentMutation.isSuccess, reset]);
 
   return (
     <div className={classNames("flex flex-col space-y-2", className)}>

@@ -13,7 +13,7 @@ export type CommentListType = {
 
 export const CommentListContext = createContext<CommentListType | null>(null);
 
-export const CommentListProvider = ({ children }: PropsWithChildren) => {
+export function CommentListProvider({ children }: PropsWithChildren) {
   const [orderBy, setOrderBy] = useState<CommentListType["orderBy"]>("newest");
   const [limit, setLimit] = useState<CommentListType["limit"]>(2);
   const [skip, setSkip] = useState<CommentListType["skip"]>(0);
@@ -37,7 +37,7 @@ export const CommentListProvider = ({ children }: PropsWithChildren) => {
       {children}
     </CommentListContext.Provider>
   );
-};
+}
 
 export const useCommentListContext = (): CommentListType => {
   const context = useContext(CommentListContext);

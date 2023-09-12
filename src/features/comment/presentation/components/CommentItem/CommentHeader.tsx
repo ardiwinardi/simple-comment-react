@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useCommentItemContext } from ".";
 import CommentAction from "./CommentAction";
 
-export const CommentHeader = () => {
+export function CommentHeader() {
   const {
     comment: { user },
   } = useCommentItemContext();
@@ -19,4 +19,4 @@ export const CommentHeader = () => {
       <h4 className="text-gray-500 text-xs">{user.title}</h4>
     </header>
   );
-};
+}
